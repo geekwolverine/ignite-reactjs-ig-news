@@ -5,6 +5,7 @@ export default {
     green: '#04D361',
     titles: '#FFFFFF',
     text: '#E1E1E6',
+    detail: '#29292e',
     shape: '#1F2729',
     background: '#121414',
   },
