@@ -34,6 +34,7 @@ export const Section = styled.section`
 
     > p {
       font-weight: normal;
+      margin-bottom: 2.5rem;
 
       > strong {
         display: block;
