@@ -1,3 +1,4 @@
+import { AuthButton } from '../AuthButton';
 import * as S from './styles';
 
 export const Header = () => (
@@ -13,6 +14,8 @@ export const Header = () => (
           Posts
         </S.NavLink>
       </nav>
+
+      <AuthButton />
     </header>
   </S.Container>
 );

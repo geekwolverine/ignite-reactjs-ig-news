@@ -18,6 +18,10 @@ export const Container = styled.div`
         margin-left: 5rem;
         height: 100%;
       }
+
+      > button {
+        margin-left: auto;
+      }
     }
   `}
 `;
