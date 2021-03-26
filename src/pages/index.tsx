@@ -1,7 +1,17 @@
+import { GetStaticProps } from 'next';
+
 import { MetaTags, SubscribeButton } from '../components';
+import { stripe } from '../services';
 import * as S from '../styles/home';
 
-export default function Home() {
+type HomeProps = {
+  product: {
+    priceId: string;
+    amount: string;
+  };
+};
+
+export default function Home({ product }: HomeProps) {
   return (
     <>
       <MetaTags title="Home" />
@@ -11,14 +21,15 @@ export default function Home() {
           <span>👏 Hey, welcome</span>
 
           <h1>
-            News about <br /> the <strong>React</strong> world{' '}
+            News about <br /> the <strong>React</strong> world
           </h1>
 
           <p>
-            Get access to all the articles <strong>for U$9.90/month</strong>{' '}
+            Get access to all the articles{' '}
+            <strong>for {`${product.amount}/month`}</strong>
           </p>
 
-          <SubscribeButton />
+          <SubscribeButton priceId={product.priceId} />
         </S.Section>
 
         <img src="/images/avatar.svg" alt="Girl Coding" />
@@ -26,3 +37,24 @@ export default function Home() {
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  const data = await stripe.prices.retrieve(
+    process.env.STRIPE_SUBSCRIPTION_PRICE,
+  );
+
+  const currencyFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+
+  const product = {
+    priceId: data.id,
+    amount: currencyFormatter.format(data.unit_amount / 100),
+  };
+
+  return {
+    props: { product },
+    revalidate: 60 * 60 * 24, // 24 hours
+  };
+};
