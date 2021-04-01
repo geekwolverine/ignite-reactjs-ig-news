@@ -1,4 +1,6 @@
 import { AppProps } from 'next/app';
+import { Provider as NextAuthProvider } from 'next-auth/client';
+import { StrictMode } from 'react';
 
 import { ThemeProvider } from 'styled-components';
 
@@ -8,11 +10,15 @@ import { Header } from '../components';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={theme}>
-      <Header />
-      <Component {...pageProps} />
-      <GlobalStyles />
-    </ThemeProvider>
+    <StrictMode>
+      <NextAuthProvider session={pageProps.session}>
+        <ThemeProvider theme={theme}>
+          <Header />
+          <Component {...pageProps} />
+          <GlobalStyles />
+        </ThemeProvider>
+      </NextAuthProvider>
+    </StrictMode>
   );
 }
 
