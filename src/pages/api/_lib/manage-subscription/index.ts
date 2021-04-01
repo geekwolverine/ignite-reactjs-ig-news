@@ -12,10 +12,10 @@ type UserRef = {
   id: string;
 };
 
-export const saveSubscription = async ({
-  subscriptionId,
-  customerId,
-}: SaveSubscription) => {
+export const saveSubscription = async (
+  { subscriptionId, customerId }: SaveSubscription,
+  isCreatingSubscription: boolean,
+) => {
   const userRefPromise = fauna.query<UserRef>(
     q.Select('ref', q.Get(getUserByStripeId(customerId))),
   );
@@ -33,9 +33,21 @@ export const saveSubscription = async ({
     price_id: subscription.items.data[0].price.id,
   };
 
-  await fauna.query(
-    q.Create(q.Collection('subscriptions'), {
-      data: subscriptionData,
-    }),
-  );
+  if (isCreatingSubscription) {
+    await fauna.query(
+      q.Create(q.Collection('subscriptions'), {
+        data: subscriptionData,
+      }),
+    );
+  } else {
+    await fauna.query(
+      q.Replace(
+        q.Select(
+          'ref',
+          q.Get(q.Match(q.Index('subscription_by_id'), subscriptionId)),
+        ),
+        { data: subscriptionData },
+      ),
+    );
+  }
 };
