@@ -1,21 +1,25 @@
+import { useRouter } from 'next/dist/client/router';
+import Link from 'next/link';
+
+import { ActiveLink } from '../ActiveLink';
 import { AuthButton } from '../AuthButton';
 import * as S from './styles';
 
-export const Header = () => (
-  <S.Container>
-    <header>
-      <img src="/images/logo.svg" alt="ig.news" />
+export const Header = () => {
+  const { asPath } = useRouter();
 
-      <nav>
-        <S.NavLink active href="/">
-          Home
-        </S.NavLink>
-        <S.NavLink active={false} href="/posts">
-          Posts
-        </S.NavLink>
-      </nav>
+  return (
+    <S.Container>
+      <header>
+        <img src="/images/logo.svg" alt="ig.news" />
 
-      <AuthButton />
-    </header>
-  </S.Container>
-);
+        <nav>
+          <ActiveLink href="/">Home</ActiveLink>
+          <ActiveLink href="/posts">Posts</ActiveLink>
+        </nav>
+
+        <AuthButton />
+      </header>
+    </S.Container>
+  );
+};
