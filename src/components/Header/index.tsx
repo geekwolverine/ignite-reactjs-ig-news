@@ -15,9 +15,7 @@ export const Header = () => {
 
         <nav>
           <ActiveLink href="/">Home</ActiveLink>
-          <ActiveLink href="/posts" prefetch>
-            Posts
-          </ActiveLink>
+          <ActiveLink href="/posts">Posts</ActiveLink>
         </nav>
 
         <AuthButton />
