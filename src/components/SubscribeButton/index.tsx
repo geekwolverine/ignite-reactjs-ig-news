@@ -13,7 +13,7 @@ export const SubscribeButton = () => {
       signIn('github');
     }
 
-    if (session.activeSubscription) {
+    if (session?.activeSubscription) {
       router.push('/posts');
       return;
     }

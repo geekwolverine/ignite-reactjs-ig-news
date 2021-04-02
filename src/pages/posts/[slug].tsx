@@ -33,7 +33,7 @@ type PostProps = {
 export default function Post({ post }: PostProps) {
   return (
     <>
-      <MetaTags title={post.title} />
+      <MetaTags title={post.title} image={post.thumbnail.url} />
 
       <S.PostContainer>
         <S.Post>
@@ -65,7 +65,7 @@ export const getServerSideProps: GetServerSideProps<PostProps> = async (
   const session = await getSession({ req });
   const slug = String(params.slug);
 
-  if (!session.activeSubscription) {
+  if (!session?.activeSubscription) {
     return {
       redirect: {
         destination: '/',

@@ -11,7 +11,7 @@ export const PostContainer = styled.main`
 export const Post = styled.article`
   ${({ theme }) => css`
     max-width: 45rem;
-    margin: 5rem auto 0;
+    margin: 5rem auto;
 
     > header {
       h1 {
@@ -37,8 +37,12 @@ export const Post = styled.article`
   `}
 `;
 
-export const PostContent = styled.section`
-  ${({ theme }) => css`
+type PostContentProps = {
+  $preview?: boolean;
+};
+
+export const PostContent = styled.section<PostContentProps>`
+  ${({ theme, $preview: isPreview }) => css`
     line-height: 2rem;
     font-size: 1.125rem;
     color: ${theme.colors.text};
@@ -58,6 +62,37 @@ export const PostContent = styled.section`
 
       li {
         margin: 0.5rem 0;
+      }
+    }
+
+    ${isPreview &&
+    css`
+      background: ${`linear-gradient(${theme.colors.text}, transparent)`};
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    `}
+  `}
+`;
+
+export const SubscribeNotice = styled.div`
+  ${({ theme }) => css`
+    background: ${theme.colors.shape};
+    padding: 1.5rem;
+    margin: 4rem 0 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 1000px;
+    font-size: 1.25rem;
+    font-weight: bold;
+
+    a {
+      color: ${theme.colors.yellow};
+
+      :hover {
+        text-decoration: underline;
       }
     }
   `}
